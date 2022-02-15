@@ -4,6 +4,10 @@
  */
 package sistema.punto.de.venta;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.UIManager;
+
 /**
  *
  * @author frodriguez
@@ -14,7 +18,9 @@ public class SistemaPuntoDeVenta {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
-    }
-    
+        try {
+            UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+        } catch (Exception e) {
+        }
+    } 
 }
