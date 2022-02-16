@@ -129,6 +129,7 @@ public class Sistema extends javax.swing.JFrame {
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         lblImagenCliente.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        lblImagenCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblImagenCliente.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblImagenClienteMouseClicked(evt);
