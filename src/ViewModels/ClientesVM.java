@@ -9,6 +9,7 @@ import Models.TClientes;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.swing.*;
 
 /**
@@ -16,7 +17,7 @@ import javax.swing.*;
  * @author frodriguez
  */
 public class ClientesVM extends Consult{
-    private String accion = "insert";
+    private String _accion = "insert";
     private final ArrayList<JLabel> _label;
     private final ArrayList<JTextField> _textField;
     public ClientesVM(Object[] objects, ArrayList<JLabel> label, ArrayList<JTextField> textField) {
@@ -39,7 +40,29 @@ public class ClientesVM extends Consult{
             _textField.get(2).requestFocus();
         } else {
             int count;
-            List<TClientes> listEmail = clientes();
+            List<TClientes> listEmail = clientes().stream().filter(u->u.getEmail().equals(_textField.get(4).getText())).collect(Collectors.toList());
+            count = listEmail.size();
+            List<TClientes> listCedula = clientes().stream().filter(u->u.getEmail().equals(_textField.get(4).getText())).collect(Collectors.toList());
+            count += listCedula.size();
+            switch (_accion) {
+                case "insert":
+                    try {
+                        if(count == 0) {
+                            Insert();
+                        }else {
+                            if(!listEmail.isEmpty()) {
+                                _label.get(4).setText("Email ya existe.");
+                                _label.get(4).setForeground(Color.RED);
+                                _textField.get(4).requestFocus();
+                            }
+                        }
+                } catch (Exception e) {
+                }
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+            
         }
     }
     
