@@ -7,63 +7,97 @@ package ViewModels;
 import Conexion.Consult;
 import Models.TClientes;
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.*;
 import javax.swing.*;
+import java.sql.*;
+import java.util.stream.Collectors;
+import org.apache.commons.dbutils.QueryRunner;
 
 /**
  *
  * @author frodriguez
  */
-public class ClientesVM extends Consult{
+public class ClientesVM extends Consult {
+
     private String _accion = "insert";
     private final ArrayList<JLabel> _label;
     private final ArrayList<JTextField> _textField;
+    private JCheckBox _checkBoxCredito;
+
     public ClientesVM(Object[] objects, ArrayList<JLabel> label, ArrayList<JTextField> textField) {
         _label = label;
         _textField = textField;
+        _checkBoxCredito = (JCheckBox) objects[0];
     }
-    
+
     public void registrarCliente() {
-        if(_textField.get(0).getText().equals("")) {
+        if (_textField.get(0).getText().equals("")) {
             _label.get(0).setText("Falta Número de Cédula");
             _label.get(0).setForeground(Color.RED);
             _textField.get(0).requestFocus();
-        } else if(_textField.get(1).getText().equals("")) {
+        } else if (_textField.get(1).getText().equals("")) {
             _label.get(1).setText("Ingrese el nombre");
             _label.get(1).setForeground(Color.RED);
             _textField.get(1).requestFocus();
-        } else if(_textField.get(2).getText().equals("")) {
+        } else if (_textField.get(2).getText().equals("")) {
             _label.get(2).setText("Ingrese el apellido");
             _label.get(2).setForeground(Color.RED);
             _textField.get(2).requestFocus();
         } else {
             int count;
-            List<TClientes> listEmail = clientes().stream().filter(u->u.getEmail().equals(_textField.get(4).getText())).collect(Collectors.toList());
+            List<TClientes> listEmail = clientes().stream().filter(u -> u.getEmail().equals(_textField.get(4).getText())).collect(Collectors.toList());
             count = listEmail.size();
-            List<TClientes> listCedula = clientes().stream().filter(u->u.getEmail().equals(_textField.get(4).getText())).collect(Collectors.toList());
+            
+            List<TClientes> listCedula = clientes().stream().filter(u -> u.getEmail().equals(_textField.get(4).getText())).collect(Collectors.toList());
             count += listCedula.size();
             switch (_accion) {
                 case "insert":
                     try {
-                        if(count == 0) {
-                            Insert();
-                        }else {
-                            if(!listEmail.isEmpty()) {
-                                _label.get(4).setText("Email ya existe.");
-                                _label.get(4).setForeground(Color.RED);
-                                _textField.get(4).requestFocus();
-                            }
+                    if (count == 0) {
+                        Insert();
+                    } else {
+                        if (!listEmail.isEmpty()) {
+                            _label.get(4).setText("Email ya existe.");
+                            _label.get(4).setForeground(Color.RED);
+                            _textField.get(4).requestFocus();
                         }
-                } catch (Exception e) {
+                        
+                        if(!listCedula.isEmpty()) {
+                            _label.get(0).setText("Nro de cédula ya existe.");
+                            _label.get(0).setForeground(Color.RED);
+                            _textField.get(0).requestFocus();
+                        }
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, ex);
                 }
-                    break;
+                break;
                 default:
                     throw new AssertionError();
             }
-            
+
         }
     }
-    
+    private void Insert() throws SQLException {
+        try {
+            final QueryRunner qr = new QueryRunner();
+            getConn().setAutoCommit(false);
+            
+            String sqlCliente = "INSERT INTO tClientes(id, NumDoc, nombre, apellido, telefono, email, direccion, fecha, credito, imagen) VALUES(?,?,?,?,?,?,?,?,?,?)";
+            
+            Object[] dataCliente = {
+                _textField.get(0).getText(),
+                _textField.get(1).getText(),
+                _textField.get(2).getText(),
+                _textField.get(3).getText(),
+                _textField.get(4).getText(),
+                _textField.get(5).getText(),
+                _checkBoxCredito.isSelected(),
+//                new Calendario().getFecha(),
+//                image,
+             };
+        } catch (Exception e) {
+        }
+    }
+
 }
