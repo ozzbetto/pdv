@@ -6,7 +6,7 @@ package ViewModels;
 
 import Conexion.Consult;
 import Library.Calendario;
-import Models.TClientes;
+import Models.TCliente;
 import java.awt.Color;
 import java.util.*;
 import javax.swing.*;
@@ -47,10 +47,10 @@ public class ClientesVM extends Consult {
             _textField.get(2).requestFocus();
         } else {
             int count;
-            List<TClientes> listEmail = clientes().stream().filter(u -> u.getEmail().equals(_textField.get(4).getText())).collect(Collectors.toList());
+            List<TCliente> listEmail = clientes().stream().filter(u -> u.getEmail().equals(_textField.get(4).getText())).collect(Collectors.toList());
             count = listEmail.size();
-            
-            List<TClientes> listCedula = clientes().stream().filter(u -> u.getEmail().equals(_textField.get(4).getText())).collect(Collectors.toList());
+
+            List<TCliente> listCedula = clientes().stream().filter(u -> u.getEmail().equals(_textField.get(4).getText())).collect(Collectors.toList());
             count += listCedula.size();
             switch (_accion) {
                 case "insert":
@@ -63,8 +63,8 @@ public class ClientesVM extends Consult {
                             _label.get(4).setForeground(Color.RED);
                             _textField.get(4).requestFocus();
                         }
-                        
-                        if(!listCedula.isEmpty()) {
+
+                        if (!listCedula.isEmpty()) {
                             _label.get(0).setText("Nro de cédula ya existe.");
                             _label.get(0).setForeground(Color.RED);
                             _textField.get(0).requestFocus();
@@ -80,13 +80,14 @@ public class ClientesVM extends Consult {
 
         }
     }
+
     private void Insert() throws SQLException {
         try {
             final QueryRunner qr = new QueryRunner();
             getConn().setAutoCommit(false);
-            
-            String sqlCliente = "INSERT INTO tClientes(NumDoc, nombre, apellido, telefono, email, direccion, fecha, credito, imagen) VALUES(?,?,?,?,?,?,?,?,?)";
-            
+
+            String sqlCliente = "INSERT INTO tCliente(NumDoc, nombre, apellido, telefono, email, direccion, fecha, credito) VALUES(?,?,?,?,?,?,?,?)";
+
             Object[] dataCliente = {
                 _textField.get(0).getText(),
                 _textField.get(1).getText(),
@@ -94,13 +95,13 @@ public class ClientesVM extends Consult {
                 _textField.get(3).getText(),
                 _textField.get(4).getText(),
                 _textField.get(5).getText(),
-                _checkBoxCredito.isSelected(),
                 new Calendario().getFecha(),
-//                imagen,
-             }; 
-            qr.insert(getConn(), sqlCliente,new ColumnListHandler(),dataCliente);
-            String sqlReport  = "INSERT INTO tReporte_Clientes(deudaActual, fechaDeuda,ultimoPago,fechaPago,ticket,fechaLimite,idCliente) VALUES (?,?,?,?,?,?,?)";
-            List<TClientes> cliente = clientes();
+                _checkBoxCredito.isSelected(), //                imagen,
+            };
+            qr.insert(getConn(), sqlCliente, new ColumnListHandler(), dataCliente);
+
+            String sqlReport = "INSERT INTO tReporte_Cliente(deudaActual, fechaDeuda,ultimoPago,fechaPago,ticket,fechaLimite,idCliente) VALUES (?,?,?,?,?,?,?)";
+            List<TCliente> cliente = clientes();
             Object[] dataReport = {
                 0,
                 "--/--/--",
@@ -108,8 +109,7 @@ public class ClientesVM extends Consult {
                 "--/--/--",
                 "0000000",
                 "--/--/--",
-                cliente.get(cliente.size()-1).getIdCliente(),
-            };
+                cliente.get(cliente.size() - 1).getId(),};
             qr.insert(getConn(), sqlReport, new ColumnListHandler(), dataReport);
             getConn().commit();
         } catch (Exception ex) {
