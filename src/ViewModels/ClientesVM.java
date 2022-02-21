@@ -5,6 +5,7 @@
 package ViewModels;
 
 import Conexion.Consult;
+import Library.Calendario;
 import Models.TClientes;
 import java.awt.Color;
 import java.util.*;
@@ -12,6 +13,7 @@ import javax.swing.*;
 import java.sql.*;
 import java.util.stream.Collectors;
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.ColumnListHandler;
 
 /**
  *
@@ -83,7 +85,7 @@ public class ClientesVM extends Consult {
             final QueryRunner qr = new QueryRunner();
             getConn().setAutoCommit(false);
             
-            String sqlCliente = "INSERT INTO tClientes(id, NumDoc, nombre, apellido, telefono, email, direccion, fecha, credito, imagen) VALUES(?,?,?,?,?,?,?,?,?,?)";
+            String sqlCliente = "INSERT INTO tClientes(NumDoc, nombre, apellido, telefono, email, direccion, fecha, credito, imagen) VALUES(?,?,?,?,?,?,?,?,?)";
             
             Object[] dataCliente = {
                 _textField.get(0).getText(),
@@ -93,10 +95,26 @@ public class ClientesVM extends Consult {
                 _textField.get(4).getText(),
                 _textField.get(5).getText(),
                 _checkBoxCredito.isSelected(),
-//                new Calendario().getFecha(),
-//                image,
-             };
-        } catch (Exception e) {
+                new Calendario().getFecha(),
+//                imagen,
+             }; 
+            qr.insert(getConn(), sqlCliente,new ColumnListHandler(),dataCliente);
+            String sqlReport  = "INSERT INTO tReporte_Clientes(deudaActual, fechaDeuda,ultimoPago,fechaPago,ticket,fechaLimite,idCliente) VALUES (?,?,?,?,?,?,?)";
+            List<TClientes> cliente = clientes();
+            Object[] dataReport = {
+                0,
+                "--/--/--",
+                0,
+                "--/--/--",
+                "0000000",
+                "--/--/--",
+                cliente.get(cliente.size()-1).getIdCliente(),
+            };
+            qr.insert(getConn(), sqlReport, new ColumnListHandler(), dataReport);
+            getConn().commit();
+        } catch (Exception ex) {
+            getConn().rollback();
+            JOptionPane.showMessageDialog(null, ex);
         }
     }
 
