@@ -6,6 +6,7 @@ package ViewModels;
 
 import Conexion.Consult;
 import Library.Calendario;
+import Library.Paginador;
 import Library.RenderCheckBox;
 import Models.TCliente;
 import java.awt.Color;
@@ -22,25 +23,29 @@ import org.apache.commons.dbutils.handlers.ColumnListHandler;
  * @author frodriguez
  */
 public class ClientesVM extends Consult {
-
+    
     private String _accion = "insert";
     private final ArrayList<JLabel> _label;
     private final ArrayList<JTextField> _textField;
     private final JCheckBox _checkBoxCredito;
     private final JTable _tableCliente;
     private DefaultTableModel modelo1;
+    private JSpinner _spinnerPaginas;
     private final int _idCliente = 0;
     private final int _reg_por_pagina = 10;
-    private final int _num_paginas = 1;
-
+    private int _num_paginas = 1;
+    private int seccion;
+    private Paginador<TCliente> _paginadorCliente;
+    
     public ClientesVM(Object[] objects, ArrayList<JLabel> label, ArrayList<JTextField> textField) {
         _label = label;
         _textField = textField;
         _checkBoxCredito = (JCheckBox) objects[0];
         _tableCliente = (JTable) objects[1];
+        _spinnerPaginas = (JSpinner) objects[2];
         restablecer();
     }
-
+    
     public void registrarCliente() {
         if (_textField.get(0).getText().equals("")) {
             _label.get(0).setText("Falta Número de Cédula");
@@ -58,7 +63,7 @@ public class ClientesVM extends Consult {
             int count;
             List<TCliente> listEmail = clientes().stream().filter(u -> u.getEmail().equals(_textField.get(4).getText())).collect(Collectors.toList());
             count = listEmail.size();
-
+            
             List<TCliente> listCedula = clientes().stream().filter(u -> u.getEmail().equals(_textField.get(4).getText())).collect(Collectors.toList());
             count += listCedula.size();
             switch (_accion) {
@@ -72,7 +77,7 @@ public class ClientesVM extends Consult {
                             _label.get(4).setForeground(Color.RED);
                             _textField.get(4).requestFocus();
                         }
-
+                        
                         if (!listCedula.isEmpty()) {
                             _label.get(0).setText("Nro de cédula ya existe.");
                             _label.get(0).setForeground(Color.RED);
@@ -86,17 +91,17 @@ public class ClientesVM extends Consult {
                 default:
                     throw new AssertionError();
             }
-
+            
         }
     }
-
+    
     private void Insert() throws SQLException {
         try {
             final QueryRunner qr = new QueryRunner();
             getConn().setAutoCommit(false);
-
+            
             String sqlCliente = "INSERT INTO tCliente(NumDoc, nombre, apellido, telefono, email, direccion, fecha, credito) VALUES(?,?,?,?,?,?,?,?)";
-
+            
             Object[] dataCliente = {
                 _textField.get(0).getText(),
                 _textField.get(1).getText(),
@@ -108,7 +113,7 @@ public class ClientesVM extends Consult {
                 _checkBoxCredito.isSelected(), //                imagen,
             };
             qr.insert(getConn(), sqlCliente, new ColumnListHandler(), dataCliente);
-
+            
             String sqlReport = "INSERT INTO tReporte_Cliente(deudaActual, fechaDeuda,ultimoPago,fechaPago,ticket,fechaLimite,idCliente) VALUES (?,?,?,?,?,?,?)";
             List<TCliente> cliente = clientes();
             Object[] dataReport = {
@@ -127,7 +132,7 @@ public class ClientesVM extends Consult {
             JOptionPane.showMessageDialog(null, ex);
         }
     }
-
+    
     public void SearchClientes(String campo) {
         List<TCliente> clienteFilter;
         String[] titulos = {"ID", "Cédula", "Nombre", "Apellido", "Email", "Dirección", "Teléfono", "Crédito"};
@@ -162,8 +167,9 @@ public class ClientesVM extends Consult {
         _tableCliente.getColumnModel().getColumn(0).setPreferredWidth(0);
         _tableCliente.getColumnModel().getColumn(7).setCellRenderer(new RenderCheckBox());
     }
-
+    
     public final void restablecer() {
+        seccion = 1;
         _accion = "insert";
         _textField.get(0).setText("");
         _textField.get(1).setText("");
@@ -172,14 +178,77 @@ public class ClientesVM extends Consult {
         _textField.get(4).setText("");
         _textField.get(5).setText("");
         _checkBoxCredito.setSelected(false);
-
+        
         _label.get(0).setForeground(new Color(0, 0, 0));
         _label.get(1).setForeground(new Color(0, 0, 0));
         _label.get(2).setForeground(new Color(0, 0, 0));
         _label.get(3).setForeground(new Color(0, 0, 0));
         _label.get(4).setForeground(new Color(0, 0, 0));
         _label.get(5).setForeground(new Color(0, 0, 0));
-
+        listClientes = clientes();
+        if (!listClientes.isEmpty()) {
+            _paginadorCliente = new Paginador<>(listClientes, _label.get(6), _reg_por_pagina);
+        }
+        
+        SpinnerNumberModel model = new SpinnerNumberModel(
+                new Integer(10), //Dato visualizado al inicio del Spinner
+                new Integer(1), //Limite inferior
+                new Integer(100), //Limite superior
+                new Integer(1) //Incremento - Decremento
+        );
+        _spinnerPaginas.setModel(model);
+        
         SearchClientes("");
+    }
+    private List<TCliente> listClientes;
+    
+    public void paginador(String metodo) {
+        switch (metodo) {
+            case "Primero":
+                switch (seccion) {
+                    case 1:
+                        if (!listClientes.isEmpty()) {
+                            _num_paginas = _paginadorCliente.primero();
+                        }
+                        break;
+                }
+                break;
+            case "Anterior":
+                switch (seccion) {
+                    case 1:
+                        if (!listClientes.isEmpty()) {
+                            _num_paginas = _paginadorCliente.anterior();
+                        }
+                        break;
+                }
+                break;
+            case "Siguiente":
+                switch (seccion) {
+                    case 1:
+                        if (!listClientes.isEmpty()) {
+                            _num_paginas = _paginadorCliente.siguiente();
+                        }
+                        break;
+                }
+                break;
+            case "Ultimo":
+                switch (seccion) {
+                    case 1:
+                        if (!listClientes.isEmpty()) {
+                            _num_paginas = _paginadorCliente.ultimo();
+                        }
+                        break;
+                }
+                break;
+        }
+        switch (seccion) {
+            case 1:
+                SearchClientes("");
+                break;
+        }
+    }
+    
+    public void Registro_Paginas() {
+        
     }
 }
