@@ -66,30 +66,72 @@ public class ClientesVM extends Consult {
 
             List<TCliente> listCedula = clientes().stream().filter(u -> u.getEmail().equals(_textField.get(4).getText())).collect(Collectors.toList());
             count += listCedula.size();
-            switch (_accion) {
-                case "insert":
-                    try {
-                    if (count == 0) {
-                        Insert();
-                    } else {
-                        if (!listEmail.isEmpty()) {
-                            _label.get(4).setText("Email ya existe.");
-                            _label.get(4).setForeground(Color.RED);
-                            _textField.get(4).requestFocus();
+            try {
+                switch (_accion) {
+                    case "insert":
+
+                        if (count == 0) {
+                            Insert();
+                        } else {
+                            if (!listEmail.isEmpty()) {
+                                _label.get(4).setText("Email ya existe.");
+                                _label.get(4).setForeground(Color.RED);
+                                _textField.get(4).requestFocus();
+                            }
+
+                            if (!listCedula.isEmpty()) {
+                                _label.get(0).setText("Nro de cédula ya existe.");
+                                _label.get(0).setForeground(Color.RED);
+                                _textField.get(0).requestFocus();
+                            }
                         }
 
-                        if (!listCedula.isEmpty()) {
-                            _label.get(0).setText("Nro de cédula ya existe.");
-                            _label.get(0).setForeground(Color.RED);
-                            _textField.get(0).requestFocus();
+                        break;
+                    case "update":
+                        if (count == 2) {
+                            if (listEmail.get(0).getId() == _idCliente && listCedula.get(0).getId() == _idCliente) {
+                                Insert();
+                            } else {
+                                if (listCedula.get(0).getId() != _idCliente) {
+                                    _label.get(0).setText("El dato ya existe.");
+                                    _label.get(0).setForeground(Color.red);
+                                    _textField.get(0).requestFocus();
+                                }
+
+                                if (listEmail.get(0).getId() != _idCliente) {
+                                    _label.get(4).setText("Email ya existe.");
+                                    _label.get(4).setForeground(Color.red);
+                                    _textField.get(4).requestFocus();
+                                }
+                            }
+                        } else {
+                            if (count == 0) {
+                                Insert();
+                            } else {
+                                if (!listCedula.isEmpty()) {
+                                    if (listCedula.get(0).getId() == _idCliente) {
+                                        Insert();
+                                    } else {
+                                        _label.get(0).setText("El dato ya existe.");
+                                        _label.get(0).setForeground(Color.red);
+                                        _textField.get(0).requestFocus();
+                                    }
+                                }
+                                if (!listEmail.isEmpty()) {
+                                    if (listEmail.get(0).getId() == _idCliente) {
+                                        Insert();
+                                    } else {
+                                        _label.get(4).setText("Email ya existe.");
+                                        _label.get(4).setForeground(Color.red);
+                                        _textField.get(4).requestFocus();
+                                    }
+                                }
+                            }
                         }
-                    }
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null, ex);
+                        break;
                 }
-                break;
-                default:
-                    throw new AssertionError();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, ex);
             }
 
         }
@@ -100,31 +142,40 @@ public class ClientesVM extends Consult {
             final QueryRunner qr = new QueryRunner();
             getConn().setAutoCommit(false);
 
-            String sqlCliente = "INSERT INTO tCliente(NumDoc, nombre, apellido, telefono, email, direccion, fecha, credito) VALUES(?,?,?,?,?,?,?,?)";
+            switch (_accion) {
+                case "insert":
+                    String sqlCliente = "INSERT INTO tCliente(NumDoc, nombre, apellido, telefono, email, direccion, fecha, credito) VALUES(?,?,?,?,?,?,?,?)";
 
-            Object[] dataCliente = {
-                _textField.get(0).getText(),
-                _textField.get(1).getText(),
-                _textField.get(2).getText(),
-                _textField.get(3).getText(),
-                _textField.get(4).getText(),
-                _textField.get(5).getText(),
-                new Calendario().getFecha(),
-                _checkBoxCredito.isSelected(), //                imagen,
-            };
-            qr.insert(getConn(), sqlCliente, new ColumnListHandler(), dataCliente);
+                    Object[] dataCliente = {
+                        _textField.get(0).getText(),
+                        _textField.get(1).getText(),
+                        _textField.get(2).getText(),
+                        _textField.get(3).getText(),
+                        _textField.get(4).getText(),
+                        _textField.get(5).getText(),
+                        new Calendario().getFecha(),
+                        _checkBoxCredito.isSelected(), //                imagen,
+                    };
+                    qr.insert(getConn(), sqlCliente, new ColumnListHandler(), dataCliente);
 
-            String sqlReport = "INSERT INTO tReporte_Cliente(deudaActual, fechaDeuda,ultimoPago,fechaPago,ticket,fechaLimite,idCliente) VALUES (?,?,?,?,?,?,?)";
-            List<TCliente> cliente = clientes();
-            Object[] dataReport = {
-                0,
-                "--/--/--",
-                0,
-                "--/--/--",
-                "0000000",
-                "--/--/--",
-                cliente.get(cliente.size() - 1).getId(),};
-            qr.insert(getConn(), sqlReport, new ColumnListHandler(), dataReport);
+                    String sqlReport = "INSERT INTO tReporte_Cliente(deudaActual, fechaDeuda,ultimoPago,fechaPago,ticket,fechaLimite,idCliente) VALUES (?,?,?,?,?,?,?)";
+                    List<TCliente> cliente = clientes();
+                    Object[] dataReport = {
+                        0,
+                        "--/--/--",
+                        0,
+                        "--/--/--",
+                        "0000000",
+                        "--/--/--",
+                        cliente.get(cliente.size() - 1).getId(),};
+                    qr.insert(getConn(), sqlReport, new ColumnListHandler(), dataReport);
+                    break;
+                    
+                case "update":
+                    
+                    break;
+            }
+
             getConn().commit();
             restablecer();
         } catch (Exception ex) {
