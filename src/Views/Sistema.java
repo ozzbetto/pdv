@@ -41,8 +41,7 @@ public class Sistema extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         txtBuscar = new javax.swing.JTextField();
         tabInfoCliente = new javax.swing.JPanel();
-        tabCliente = new javax.swing.JTabbedPane();
-        jPanel7 = new javax.swing.JPanel();
+        tabPagosCliente1 = new javax.swing.JTabbedPane();
         jPanel6 = new javax.swing.JPanel();
         lblNumCedula = new javax.swing.JLabel();
         txtNumCedula = new javax.swing.JTextField();
@@ -59,8 +58,9 @@ public class Sistema extends javax.swing.JFrame {
         btnAgregar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         checkBoxCredito = new javax.swing.JCheckBox();
+        jPanel7 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        tabPagosCliente2 = new javax.swing.JTabbedPane();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblCliente = tblCliente = new javax.swing.JTable() {
@@ -147,18 +147,11 @@ public class Sistema extends javax.swing.JFrame {
 
         tabInfoCliente.setBorder(javax.swing.BorderFactory.createTitledBorder("Información del Cliente"));
 
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        tabCliente.addTab("Pago", jPanel7);
+        tabPagosCliente1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                tabPagosCliente1StateChanged(evt);
+            }
+        });
 
         lblNumCedula.setText("Número de Cédula");
 
@@ -312,28 +305,47 @@ public class Sistema extends javax.swing.JFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAgregar)
                     .addComponent(btnCancelar))
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        tabCliente.addTab("Cliente", jPanel6);
+        tabPagosCliente1.addTab("Cliente", jPanel6);
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        tabPagosCliente1.addTab("Pago", jPanel7);
 
         javax.swing.GroupLayout tabInfoClienteLayout = new javax.swing.GroupLayout(tabInfoCliente);
         tabInfoCliente.setLayout(tabInfoClienteLayout);
         tabInfoClienteLayout.setHorizontalGroup(
             tabInfoClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabInfoClienteLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(tabCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addGroup(tabInfoClienteLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(tabPagosCliente1, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         tabInfoClienteLayout.setVerticalGroup(
             tabInfoClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tabInfoClienteLayout.createSequentialGroup()
-                .addComponent(tabCliente)
+                .addComponent(tabPagosCliente1, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+
+        tabPagosCliente2.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                tabPagosCliente2StateChanged(evt);
+            }
+        });
 
         tblCliente.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -375,7 +387,7 @@ public class Sistema extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Clientes", jPanel5);
+        tabPagosCliente2.addTab("Clientes", jPanel5);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -407,7 +419,7 @@ public class Sistema extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Pagos y Reportes", jPanel8);
+        tabPagosCliente2.addTab("Pagos y Reportes", jPanel8);
 
         lblregistros1.setText("Registros por página:");
 
@@ -454,7 +466,7 @@ public class Sistema extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTabbedPane1)
+                    .addComponent(tabPagosCliente2)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(lblregistros1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -476,7 +488,7 @@ public class Sistema extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tabPagosCliente2, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblregistros1)
@@ -691,6 +703,26 @@ public class Sistema extends javax.swing.JFrame {
             cliente.getCliente();
         }
     }//GEN-LAST:event_tblClienteMouseClicked
+
+    private void tabPagosCliente1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabPagosCliente1StateChanged
+        if (tabPagosCliente1.getSelectedIndex() == 0) {
+            if (tabPagosCliente2.getSelectedIndex() > 0) {
+                tabPagosCliente2.setSelectedIndex(0);
+            }
+        } else {
+            tabPagosCliente2.setSelectedIndex(1);
+        }
+    }//GEN-LAST:event_tabPagosCliente1StateChanged
+
+    private void tabPagosCliente2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabPagosCliente2StateChanged
+        if (tabPagosCliente2.getSelectedIndex() == 0) {
+            if (tabPagosCliente1.getSelectedIndex() > 0) {
+                tabPagosCliente1.setSelectedIndex(0);
+            }
+        } else {
+            tabPagosCliente1.setSelectedIndex(1);
+        }
+    }//GEN-LAST:event_tabPagosCliente2StateChanged
     // </editor-fold>
     /**
      * @param args the command line arguments
@@ -748,7 +780,6 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblApellido;
     private javax.swing.JLabel lblDireccion;
@@ -760,8 +791,9 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JLabel lblregistros1;
     private javax.swing.JSpinner spnrPagCli;
     private javax.swing.JPanel tab1;
-    private javax.swing.JTabbedPane tabCliente;
     private javax.swing.JPanel tabInfoCliente;
+    private javax.swing.JTabbedPane tabPagosCliente1;
+    private javax.swing.JTabbedPane tabPagosCliente2;
     private javax.swing.JTabbedPane tabPrincipal;
     private javax.swing.JTable tblCliente;
     private javax.swing.JTextField txtApellido;
