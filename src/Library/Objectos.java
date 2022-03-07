@@ -10,4 +10,5 @@ package Library;
  */
 public class Objectos {
     public static UploadImage uploadImage = new UploadImage();
+    public static TextFieldEvent eventos = new TextFieldEvent();
 }

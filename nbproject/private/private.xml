@@ -3,9 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/betto/NetBeansProjects/pdv/src/Views/Sistema.java</file>
-            <file>file:/Users/betto/NetBeansProjects/pdv/src/sistema/punto/de/venta/SistemaPuntoDeVenta.java</file>
-            <file>file:/Users/betto/NetBeansProjects/pdv/src/Library/UploadImage.java</file>
+            <file>file:/C:/pdv/Sistema%20Punto%20de%20Venta/src/Views/Sistema.java</file>
+            <file>file:/C:/pdv/Sistema%20Punto%20de%20Venta/src/Conexion/Conexion.java</file>
+            <file>file:/C:/pdv/Sistema%20Punto%20de%20Venta/src/Library/Paginador.java</file>
+            <file>file:/C:/pdv/Sistema%20Punto%20de%20Venta/src/ViewModels/ClientesVM.java</file>
+            <file>file:/C:/pdv/Sistema%20Punto%20de%20Venta/src/Models/tReportes_Cliente.java</file>
+            <file>file:/C:/pdv/Sistema%20Punto%20de%20Venta/src/Library/Calendario.java</file>
+            <file>file:/C:/pdv/Sistema%20Punto%20de%20Venta/src/Models/TCliente.java</file>
         </group>
     </open-files>
 </project-private>

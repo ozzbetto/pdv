@@ -74,9 +74,9 @@ public class ClientesVM extends Consult {
                             Insert();
                         } else {
                             if (!listEmail.isEmpty()) {
-                                _label.get(4).setText("Email ya existe.");
-                                _label.get(4).setForeground(Color.RED);
-                                _textField.get(4).requestFocus();
+                                _label.get(5).setText("Email ya existe.");
+                                _label.get(5).setForeground(Color.RED);
+                                _textField.get(5).requestFocus();
                             }
 
                             if (!listCedula.isEmpty()) {
@@ -85,7 +85,6 @@ public class ClientesVM extends Consult {
                                 _textField.get(0).requestFocus();
                             }
                         }
-
                         break;
                     case "update":
                         if (count == 2) {
@@ -99,9 +98,9 @@ public class ClientesVM extends Consult {
                                 }
 
                                 if (listEmail.get(0).getId() != _idCliente) {
-                                    _label.get(4).setText("Email ya existe.");
-                                    _label.get(4).setForeground(Color.red);
-                                    _textField.get(4).requestFocus();
+                                    _label.get(5).setText("Email ya existe.");
+                                    _label.get(5).setForeground(Color.red);
+                                    _textField.get(5).requestFocus();
                                 }
                             }
                         } else {
@@ -133,7 +132,6 @@ public class ClientesVM extends Consult {
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, ex);
             }
-
         }
     }
 
@@ -170,9 +168,19 @@ public class ClientesVM extends Consult {
                         cliente.get(cliente.size() - 1).getId(),};
                     qr.insert(getConn(), sqlReport, new ColumnListHandler(), dataReport);
                     break;
-                    
+
                 case "update":
-                    
+                    Object[] dataCliente2 = {
+                        _textField.get(0).getText(),
+                        _textField.get(1).getText(),
+                        _textField.get(2).getText(),
+                        _textField.get(3).getText(),
+                        _textField.get(4).getText(),
+                        _textField.get(5).getText(),
+                        _checkBoxCredito.isSelected(), //                imagen,
+                    };
+                    String sqlCliente2 = "UPDATE tCliente SET numDoc = ?, nombre = ?, apellido = ?, telefono = ?, email = ?, direccion = ?, credito = ? WHERE id = " + _idCliente;
+                    qr.update(getConn(), sqlCliente2, dataCliente2);
                     break;
             }
 
@@ -226,9 +234,9 @@ public class ClientesVM extends Consult {
         _textField.get(0).setText((String) modelo1.getValueAt(filas, 1));
         _textField.get(1).setText((String) modelo1.getValueAt(filas, 2));
         _textField.get(2).setText((String) modelo1.getValueAt(filas, 3));
-        _textField.get(3).setText((String) modelo1.getValueAt(filas, 4));
-        _textField.get(4).setText((String) modelo1.getValueAt(filas, 5));
-        _textField.get(5).setText((String) modelo1.getValueAt(filas, 6));
+        _textField.get(3).setText((String) modelo1.getValueAt(filas, 6));
+        _textField.get(4).setText((String) modelo1.getValueAt(filas, 4));
+        _textField.get(5).setText((String) modelo1.getValueAt(filas, 5));
         _checkBoxCredito.setSelected((Boolean) modelo1.getValueAt(filas, 7));
     }
 
