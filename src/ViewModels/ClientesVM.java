@@ -9,6 +9,7 @@ import Library.Calendario;
 import Library.Paginador;
 import Library.RenderCheckBox;
 import Models.TCliente;
+import Models.tReportes_Cliente;
 import java.awt.Color;
 import java.util.*;
 import javax.swing.*;
@@ -29,14 +30,15 @@ public class ClientesVM extends Consult {
     private final ArrayList<JTextField> _textField;
     private final JCheckBox _checkBoxCredito;
     private final JTable _tableCliente;
-    private DefaultTableModel modelo1;
-    private JSpinner _spinnerPaginas;
+    private DefaultTableModel modelo1, modelo2;
+    private final JSpinner _spinnerPaginas;
     private int _idCliente = 0;
     private int _reg_por_pagina = 10;
     private int _num_paginas = 1;
     private int seccion;
     private Paginador<TCliente> _paginadorCliente;
 
+    // <editor-fold defaultstate="collapsed" desc="Registro de Clientes">
     public ClientesVM(Object[] objects, ArrayList<JLabel> label, ArrayList<JTextField> textField) {
         _label = label;
         _textField = textField;
@@ -44,6 +46,7 @@ public class ClientesVM extends Consult {
         _tableCliente = (JTable) objects[1];
         _spinnerPaginas = (JSpinner) objects[2];
         restablecer();
+        reporteCliente();
     }
 
     public void registrarCliente() {
@@ -272,6 +275,16 @@ public class ClientesVM extends Consult {
 
         SearchClientes("");
     }
+    // </editor-fold>
+
+    // <editor-fold defaultstate="collapsed" desc="Pagos y Reportes">
+    public void searchReportes(String valor) {
+        String[] titulos = {"ID", "Nombre", "Apellido", "Deuda actual", "Fecha deuda", "Ultimo pago", "Fecha pago", "Factura", "Fecha limite"};
+        modelo2 = new DefaultTableModel(null,titulos);
+        int inicio = (_num_paginas -1) *_reg_por_pagina;
+        List<tReportes_Cliente> reporteFilter;
+    }   
+    // </editor-fold>
     private List<TCliente> listClientes;
 
     public void paginador(String metodo) {
