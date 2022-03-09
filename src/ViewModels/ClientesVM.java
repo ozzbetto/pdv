@@ -29,7 +29,7 @@ public class ClientesVM extends Consult {
     private final ArrayList<JLabel> _label;
     private final ArrayList<JTextField> _textField;
     private final JCheckBox _checkBoxCredito;
-    private final JTable _tableCliente;
+    private final JTable _tableCliente, _tableReporte;
     private DefaultTableModel modelo1, modelo2;
     private final JSpinner _spinnerPaginas;
     private int _idCliente = 0;
@@ -45,8 +45,9 @@ public class ClientesVM extends Consult {
         _checkBoxCredito = (JCheckBox) objects[0];
         _tableCliente = (JTable) objects[1];
         _spinnerPaginas = (JSpinner) objects[2];
+        _tableReporte = (JTable) objects[3];
         restablecer();
-        reporteCliente();
+        restablecerReport();
     }
 
     public void registrarCliente() {
@@ -279,11 +280,43 @@ public class ClientesVM extends Consult {
 
     // <editor-fold defaultstate="collapsed" desc="Pagos y Reportes">
     public void searchReportes(String valor) {
-        String[] titulos = {"ID", "Nombre", "Apellido", "Deuda actual", "Fecha deuda", "Ultimo pago", "Fecha pago", "Factura", "Fecha limite"};
-        modelo2 = new DefaultTableModel(null,titulos);
-        int inicio = (_num_paginas -1) *_reg_por_pagina;
+        String[] titulos = {"ID","Cedula", "Nombre", "Apellido", "Deuda actual", "Fecha deuda", "Ultimo pago", "Fecha ult. pago", "Factura", "Fecha limite"};
+        modelo2 = new DefaultTableModel(null, titulos);
+        int inicio = (_num_paginas - 1) * _reg_por_pagina;
         List<tReportes_Cliente> reporteFilter;
-    }   
+        if (valor.equals("")) {
+            reporteFilter = reporteCliente().stream()
+                    .skip(inicio).limit(_reg_por_pagina)
+                    .collect(Collectors.toList());
+        } else {
+            reporteFilter = reporteCliente().stream().filter(C -> C.getNumDoc()
+                    .startsWith(valor) || C.getNombre().startsWith(valor) || C.getApellido().startsWith(valor)).skip(inicio).limit(_reg_por_pagina).collect(Collectors.toList());
+        }
+        if (!reporteFilter.isEmpty()) {
+            reporteFilter.forEach(item -> {
+                Object[] registros = {
+                    item.getId(),
+                    item.getNumDoc(),
+                    item.getNombre(),
+                    item.getApellido(),
+                    item.getDeudaActual(),
+                    item.getFechaDeuda(),
+                    item.getUltimoPago(),
+                    item.getFechaPago(),
+                    item.getTicket(),
+                    item.getFechaLimite(),};
+                modelo2.addRow(registros);
+            });
+        }
+        _tableReporte.setModel(modelo2);
+        _tableReporte.setRowHeight(20);
+        _tableReporte.getColumnModel().getColumn(0).setMaxWidth(0);
+        _tableReporte.getColumnModel().getColumn(0).setMinWidth(0);
+        _tableReporte.getColumnModel().getColumn(0).setPreferredWidth(0);
+    }
+    public void restablecerReport() {
+        searchReportes("");
+    }
     // </editor-fold>
     private List<TCliente> listClientes;
 

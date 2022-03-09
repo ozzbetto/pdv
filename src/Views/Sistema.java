@@ -759,7 +759,7 @@ public class Sistema extends javax.swing.JFrame {
         textField.add(txtEmail);
         textField.add(txtDireccion);
 
-        Object[] objects = {checkBoxCredito, tblCliente, spnrPagCli};
+        Object[] objects = {checkBoxCredito, tblCliente, spnrPagCli, tblClienteReport};
         cliente = new ClientesVM(objects, label, textField);
 
         tabPrincipal.setSelectedIndex(1);
