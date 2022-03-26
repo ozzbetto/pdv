@@ -37,6 +37,7 @@ public class ClientesVM extends Consult {
     private int _num_paginas = 1;
     private int seccion;
     private Paginador<TCliente> _paginadorCliente;
+    private Paginador<tReportes_Cliente> _paginadorReportes;
 
     // <editor-fold defaultstate="collapsed" desc="Registro de Clientes">
     public ClientesVM(Object[] objects, ArrayList<JLabel> label, ArrayList<JTextField> textField) {
@@ -315,11 +316,15 @@ public class ClientesVM extends Consult {
         _tableReporte.getColumnModel().getColumn(0).setPreferredWidth(0);
     }
     public void restablecerReport() {
+        listaReportes = reporteCliente();
+        if(!listaReportes.isEmpty()) {
+            _paginadorReportes = new Paginador<>(listaReportes, _label.get(7), _reg_por_pagina);
+        }
         searchReportes("");
     }
     // </editor-fold>
     private List<TCliente> listClientes;
-
+    private List<tReportes_Cliente> listaReportes;
     public void paginador(String metodo) {
         switch (metodo) {
             case "Primero":
