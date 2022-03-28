@@ -881,22 +881,36 @@ public class Sistema extends javax.swing.JFrame {
     }//GEN-LAST:event_tblClienteMouseClicked
 
     private void tabPagosCliente1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabPagosCliente1StateChanged
-        if (tabPagosCliente1.getSelectedIndex() == 0) {
-            if (tabPagosCliente2.getSelectedIndex() > 0) {
-                tabPagosCliente2.setSelectedIndex(0);
-            }
-        } else {
-            tabPagosCliente2.setSelectedIndex(1);
+        switch(tabPagosCliente1.getSelectedIndex()) {
+            case 0:
+                if(tabPagosCliente2.getSelectedIndex() > 0) {
+                    tabPagosCliente2.setSelectedIndex(0);
+                    cliente.seccion = 1;
+                    cliente.Registro_Paginas();
+                }
+                break;
+            case 1:
+                cliente.seccion = 2;
+                tabPagosCliente2.setSelectedIndex(1);
+                cliente.Registro_Paginas();
+                break;
         }
     }//GEN-LAST:event_tabPagosCliente1StateChanged
 
     private void tabPagosCliente2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabPagosCliente2StateChanged
-        if (tabPagosCliente2.getSelectedIndex() == 0) {
-            if (tabPagosCliente1.getSelectedIndex() > 0) {
-                tabPagosCliente1.setSelectedIndex(0);
-            }
-        } else {
-            tabPagosCliente1.setSelectedIndex(1);
+        switch(tabPagosCliente2.getSelectedIndex()) {
+            case 0:
+                if(tabPagosCliente1.getSelectedIndex() > 0) {
+                    tabPagosCliente1.setSelectedIndex(0);
+                    cliente.seccion = 1;
+                    cliente.Registro_Paginas();
+                }
+                break;
+            case 1:
+                cliente.seccion = 2;
+                tabPagosCliente2.setSelectedIndex(1);
+                cliente.Registro_Paginas();
+                break;
         }
     }//GEN-LAST:event_tabPagosCliente2StateChanged
 
