@@ -6,11 +6,13 @@ package ViewModels;
 
 import Conexion.Consult;
 import Library.Calendario;
+import Library.FormatDecimal;
 import Library.Paginador;
 import Library.RenderCheckBox;
 import Models.TCliente;
 import Models.tReportes_Cliente;
 import java.awt.Color;
+import static java.lang.String.format;
 import java.util.*;
 import javax.swing.*;
 import java.sql.*;
@@ -24,8 +26,8 @@ import org.apache.commons.dbutils.handlers.ColumnListHandler;
  * @author frodriguez
  */
 public class ClientesVM extends Consult {
-
-    private String _accion = "insert";
+    
+    private String _accion = "insert", _mony;
     private final ArrayList<JLabel> _label;
     private final ArrayList<JTextField> _textField;
     private final JCheckBox _checkBoxCredito;
@@ -36,6 +38,7 @@ public class ClientesVM extends Consult {
     private int _reg_por_pagina = 10;
     private int _num_paginas = 1;
     public int seccion;
+    private final FormatDecimal _format;
     private Paginador<TCliente> _paginadorCliente;
     private Paginador<tReportes_Cliente> _paginadorReportes;
 
@@ -47,10 +50,11 @@ public class ClientesVM extends Consult {
         _tableCliente = (JTable) objects[1];
         _spinnerPaginas = (JSpinner) objects[2];
         _tableReporte = (JTable) objects[3];
+        _format = new FormatDecimal();
         restablecer();
         restablecerReport();
     }
-
+    
     public void registrarCliente() {
         if (_textField.get(0).getText().equals("")) {
             _label.get(0).setText("Falta Número de Cédula");
@@ -68,13 +72,13 @@ public class ClientesVM extends Consult {
             int count;
             List<TCliente> listEmail = clientes().stream().filter(u -> u.getEmail().equals(_textField.get(4).getText())).collect(Collectors.toList());
             count = listEmail.size();
-
+            
             List<TCliente> listCedula = clientes().stream().filter(u -> u.getEmail().equals(_textField.get(4).getText())).collect(Collectors.toList());
             count += listCedula.size();
             try {
                 switch (_accion) {
                     case "insert":
-
+                        
                         if (count == 0) {
                             Insert();
                         } else {
@@ -83,7 +87,7 @@ public class ClientesVM extends Consult {
                                 _label.get(5).setForeground(Color.RED);
                                 _textField.get(5).requestFocus();
                             }
-
+                            
                             if (!listCedula.isEmpty()) {
                                 _label.get(0).setText("Nro de cédula ya existe.");
                                 _label.get(0).setForeground(Color.RED);
@@ -101,7 +105,7 @@ public class ClientesVM extends Consult {
                                     _label.get(0).setForeground(Color.red);
                                     _textField.get(0).requestFocus();
                                 }
-
+                                
                                 if (listEmail.get(0).getId() != _idCliente) {
                                     _label.get(5).setText("Email ya existe.");
                                     _label.get(5).setForeground(Color.red);
@@ -139,16 +143,16 @@ public class ClientesVM extends Consult {
             }
         }
     }
-
+    
     private void Insert() throws SQLException {
         try {
             final QueryRunner qr = new QueryRunner();
             getConn().setAutoCommit(false);
-
+            
             switch (_accion) {
                 case "insert":
                     String sqlCliente = "INSERT INTO tCliente(NumDoc, nombre, apellido, telefono, email, direccion, fecha, credito) VALUES(?,?,?,?,?,?,?,?)";
-
+                    
                     Object[] dataCliente = {
                         _textField.get(0).getText(),
                         _textField.get(1).getText(),
@@ -160,7 +164,7 @@ public class ClientesVM extends Consult {
                         _checkBoxCredito.isSelected(), //                imagen,
                     };
                     qr.insert(getConn(), sqlCliente, new ColumnListHandler(), dataCliente);
-
+                    
                     String sqlReport = "INSERT INTO tReporte_Cliente(deudaActual, fechaDeuda,ultimoPago,fechaPago,ticket,fechaLimite,idCliente) VALUES (?,?,?,?,?,?,?)";
                     List<TCliente> cliente = clientes();
                     Object[] dataReport = {
@@ -173,7 +177,7 @@ public class ClientesVM extends Consult {
                         cliente.get(cliente.size() - 1).getId(),};
                     qr.insert(getConn(), sqlReport, new ColumnListHandler(), dataReport);
                     break;
-
+                
                 case "update":
                     Object[] dataCliente2 = {
                         _textField.get(0).getText(),
@@ -188,7 +192,7 @@ public class ClientesVM extends Consult {
                     qr.update(getConn(), sqlCliente2, dataCliente2);
                     break;
             }
-
+            
             getConn().commit();
             restablecer();
         } catch (Exception ex) {
@@ -196,7 +200,7 @@ public class ClientesVM extends Consult {
             JOptionPane.showMessageDialog(null, ex);
         }
     }
-
+    
     public void SearchClientes(String campo) {
         List<TCliente> clienteFilter;
         String[] titulos = {"ID", "Cédula", "Nombre", "Apellido", "Email", "Dirección", "Teléfono", "Crédito"};
@@ -231,7 +235,7 @@ public class ClientesVM extends Consult {
         _tableCliente.getColumnModel().getColumn(0).setPreferredWidth(0);
         _tableCliente.getColumnModel().getColumn(7).setCellRenderer(new RenderCheckBox());
     }
-
+    
     public void getCliente() {
         _accion = "update";
         int filas = _tableCliente.getSelectedRow();
@@ -244,7 +248,7 @@ public class ClientesVM extends Consult {
         _textField.get(5).setText((String) modelo1.getValueAt(filas, 5));
         _checkBoxCredito.setSelected((Boolean) modelo1.getValueAt(filas, 7));
     }
-
+    
     public final void restablecer() {
         seccion = 1;
         _accion = "insert";
@@ -255,7 +259,7 @@ public class ClientesVM extends Consult {
         _textField.get(4).setText("");
         _textField.get(5).setText("");
         _checkBoxCredito.setSelected(false);
-
+        
         _label.get(0).setForeground(new Color(0, 0, 0));
         _label.get(1).setForeground(new Color(0, 0, 0));
         _label.get(2).setForeground(new Color(0, 0, 0));
@@ -266,7 +270,7 @@ public class ClientesVM extends Consult {
         if (!listClientes.isEmpty()) {
             _paginadorCliente = new Paginador<>(listClientes, _label.get(6), _reg_por_pagina);
         }
-
+        
         SpinnerNumberModel model = new SpinnerNumberModel(
                 new Integer(10), //Dato visualizado al inicio del Spinner
                 new Integer(1), //Limite inferior
@@ -274,7 +278,7 @@ public class ClientesVM extends Consult {
                 new Integer(1) //Incremento - Decremento
         );
         _spinnerPaginas.setModel(model);
-
+        
         SearchClientes("");
     }
     // </editor-fold>
@@ -315,7 +319,17 @@ public class ClientesVM extends Consult {
         _tableReporte.getColumnModel().getColumn(0).setMinWidth(0);
         _tableReporte.getColumnModel().getColumn(0).setPreferredWidth(0);
     }
-
+    
+    public void GetReportCliente() {
+        int filas = _tableReporte.getSelectedRow();
+        _idCliente = (Integer) modelo2.getValueAt(filas, 0);
+        _label.get(8).setText(_mony + _format.decimal((Double) modelo2.getValueAt(filas, 4)));
+        _label.get(9).setText((String) modelo2.getValueAt(filas, 5));
+        _label.get(10).setText(_mony + _format.decimal((Double) modelo2.getValueAt(filas, 6)));
+        _label.get(11).setText((String) modelo2.getValueAt(filas, 7));
+        _label.get(12).setText((String) modelo2.getValueAt(filas, 8));
+    }
+    
     public void restablecerReport() {
         listaReportes = reporteCliente();
         if (!listaReportes.isEmpty()) {
@@ -326,7 +340,7 @@ public class ClientesVM extends Consult {
     // </editor-fold>
     private List<TCliente> listClientes;
     private List<tReportes_Cliente> listaReportes;
-
+    
     public void paginador(String metodo) {
         switch (metodo) {
             case "Primero":
@@ -393,7 +407,7 @@ public class ClientesVM extends Consult {
                 break;
         }
     }
-
+    
     public void Registro_Paginas() {
         _num_paginas = 1;
         Number caja = (Number) _spinnerPaginas.getValue();
