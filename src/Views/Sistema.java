@@ -99,6 +99,8 @@ public class Sistema extends javax.swing.JFrame {
         btnUltimo = new javax.swing.JButton();
         lblNumPaginas = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        btnConf = new javax.swing.JButton();
+        btnVentas = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema POS");
@@ -711,6 +713,20 @@ public class Sistema extends javax.swing.JFrame {
             }
         });
 
+        btnConf.setText("Conf.");
+        btnConf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfActionPerformed(evt);
+            }
+        });
+
+        btnVentas.setText("Ventas");
+        btnVentas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVentasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -721,7 +737,12 @@ public class Sistema extends javax.swing.JFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(tabPrincipal)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(btnVentas)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnConf)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -731,7 +752,10 @@ public class Sistema extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(btnConf)
+                    .addComponent(btnVentas))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(tabPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(87, Short.MAX_VALUE))
@@ -750,6 +774,13 @@ public class Sistema extends javax.swing.JFrame {
         label.add(lblEmail);
         label.add(lblDireccion);
         label.add(lblNumPaginas);
+        
+        label.add(lblClienteDeuda);
+        label.add(lblFechaDeuda);
+        label.add(lblFechaPago);
+        label.add(lblClienteUltimoPago);
+        label.add(lblClienteTicket);
+        label.add(lblReportPagos);
 
         ArrayList<JTextField> textField = new ArrayList();
         textField.add(txtNumCedula);
@@ -881,9 +912,9 @@ public class Sistema extends javax.swing.JFrame {
     }//GEN-LAST:event_tblClienteMouseClicked
 
     private void tabPagosCliente1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabPagosCliente1StateChanged
-        switch(tabPagosCliente1.getSelectedIndex()) {
+        switch (tabPagosCliente1.getSelectedIndex()) {
             case 0:
-                if(tabPagosCliente2.getSelectedIndex() > 0) {
+                if (tabPagosCliente2.getSelectedIndex() > 0) {
                     tabPagosCliente2.setSelectedIndex(0);
                     cliente.seccion = 1;
                     cliente.Registro_Paginas();
@@ -898,9 +929,9 @@ public class Sistema extends javax.swing.JFrame {
     }//GEN-LAST:event_tabPagosCliente1StateChanged
 
     private void tabPagosCliente2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabPagosCliente2StateChanged
-        switch(tabPagosCliente2.getSelectedIndex()) {
+        switch (tabPagosCliente2.getSelectedIndex()) {
             case 0:
-                if(tabPagosCliente1.getSelectedIndex() > 0) {
+                if (tabPagosCliente1.getSelectedIndex() > 0) {
                     tabPagosCliente1.setSelectedIndex(0);
                     cliente.seccion = 1;
                     cliente.Registro_Paginas();
@@ -915,12 +946,24 @@ public class Sistema extends javax.swing.JFrame {
     }//GEN-LAST:event_tabPagosCliente2StateChanged
 
     private void tblClienteReportMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClienteReportMouseClicked
-        // TODO add your handling code here:
+        if (tblClienteReport.getSelectedRows().length > 0) {
+            cliente.GetReportCliente();
+        }
     }//GEN-LAST:event_tblClienteReportMouseClicked
 
     private void tblClienteReportKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblClienteReportKeyReleased
-        // TODO add your handling code here:
+        if (tblClienteReport.getSelectedRows().length > 0) {
+            cliente.GetReportCliente();
+        }
     }//GEN-LAST:event_tblClienteReportKeyReleased
+
+    private void btnConfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnConfActionPerformed
+
+    private void btnVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnVentasActionPerformed
     // </editor-fold>
     /**
      * @param args the command line arguments
@@ -962,9 +1005,11 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnAnterior;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnConf;
     private javax.swing.JButton btnPrimero;
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JButton btnUltimo;
+    private javax.swing.JButton btnVentas;
     private javax.swing.JCheckBox checkBoxCredito;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
