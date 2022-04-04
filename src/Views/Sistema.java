@@ -6,6 +6,7 @@ package Views;
 
 import Library.Objectos;
 import ViewModels.ClientesVM;
+import ViewModels.ConfiguracionVM;
 import java.awt.Color;
 import java.util.*;
 import javax.swing.*;
@@ -15,12 +16,15 @@ import javax.swing.*;
  * @author frodriguez
  */
 public class Sistema extends javax.swing.JFrame {
-
+private final List<JRadioButton> _radio;
     /**
      * Creates new form Sistema
      */
     public Sistema() {
         initComponents();
+        //Código de configuración
+        //
+        //
     }
 
     /**
@@ -32,6 +36,7 @@ public class Sistema extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         tabPrincipal = new javax.swing.JTabbedPane();
@@ -98,7 +103,13 @@ public class Sistema extends javax.swing.JFrame {
         btnAnterior = new javax.swing.JButton();
         btnUltimo = new javax.swing.JButton();
         lblNumPaginas = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jPanel12 = new javax.swing.JPanel();
+        jPanel14 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        rbGuarani = new javax.swing.JRadioButton();
+        rbDolar = new javax.swing.JRadioButton();
+        rbReal = new javax.swing.JRadioButton();
+        btnCliente = new javax.swing.JButton();
         btnConf = new javax.swing.JButton();
         btnVentas = new javax.swing.JButton();
 
@@ -706,10 +717,69 @@ public class Sistema extends javax.swing.JFrame {
 
         tabPrincipal.addTab("Clientes", tab1);
 
-        jButton1.setText("Clientes");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel3.setText("Tipo de Moneda");
+
+        buttonGroup1.add(rbGuarani);
+        rbGuarani.setText("Guarani");
+
+        buttonGroup1.add(rbDolar);
+        rbDolar.setText("Dólar");
+
+        buttonGroup1.add(rbReal);
+        rbReal.setText("Real");
+
+        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
+        jPanel14.setLayout(jPanel14Layout);
+        jPanel14Layout.setHorizontalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rbDolar)
+                    .addComponent(jLabel3)
+                    .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(rbReal, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(rbGuarani, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(435, Short.MAX_VALUE))
+        );
+        jPanel14Layout.setVerticalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(rbGuarani)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(rbDolar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(rbReal)
+                .addContainerGap(422, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(737, Short.MAX_VALUE))
+        );
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
+
+        tabPrincipal.addTab("Conf.", jPanel12);
+
+        btnCliente.setText("Clientes");
+        btnCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnClienteActionPerformed(evt);
             }
         });
 
@@ -721,11 +791,6 @@ public class Sistema extends javax.swing.JFrame {
         });
 
         btnVentas.setText("Ventas");
-        btnVentas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVentasActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -735,12 +800,12 @@ public class Sistema extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(tabPrincipal)
+                    .addComponent(tabPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 1307, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(5, 5, 5)
                         .addComponent(btnVentas)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
+                        .addComponent(btnCliente)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnConf)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -749,23 +814,22 @@ public class Sistema extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(btnCliente)
                     .addComponent(btnConf)
                     .addComponent(btnVentas))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(tabPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(87, Short.MAX_VALUE))
+                .addComponent(tabPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 602, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
     // <editor-fold defaultstate="collapsed" desc="Code by Betto">
     private ClientesVM cliente;
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClienteActionPerformed
         ArrayList<JLabel> label = new ArrayList();
         label.add(lblNumCedula);
         label.add(lblNombre);
@@ -794,7 +858,9 @@ public class Sistema extends javax.swing.JFrame {
         cliente = new ClientesVM(objects, label, textField);
 
         tabPrincipal.setSelectedIndex(1);
-    }//GEN-LAST:event_jButton1ActionPerformed
+        btnCliente.setEnabled(false);
+        btnConf.setEnabled(true);
+    }//GEN-LAST:event_btnClienteActionPerformed
 
     private void txtNumCedulaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumCedulaKeyReleased
         if (txtNumCedula.getText().equals("")) {
@@ -956,14 +1022,14 @@ public class Sistema extends javax.swing.JFrame {
             cliente.GetReportCliente();
         }
     }//GEN-LAST:event_tblClienteReportKeyReleased
-
+    
+    ConfiguracionVM config;
     private void btnConfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfActionPerformed
-        // TODO add your handling code here:
+        tabPrincipal.setSelectedIndex(2);
+        btnCliente.setEnabled(true);
+        btnConf.setEnabled(false);
+        config = new ConfiguracionVM(_radio);
     }//GEN-LAST:event_btnConfActionPerformed
-
-    private void btnVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentasActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnVentasActionPerformed
     // </editor-fold>
     /**
      * @param args the command line arguments
@@ -1005,18 +1071,22 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnAnterior;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnCliente;
     private javax.swing.JButton btnConf;
     private javax.swing.JButton btnPrimero;
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JButton btnUltimo;
     private javax.swing.JButton btnVentas;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JCheckBox checkBoxCredito;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -1046,6 +1116,9 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JLabel lblReportPagos;
     private javax.swing.JLabel lblTelefono;
     private javax.swing.JLabel lblregistros1;
+    private javax.swing.JRadioButton rbDolar;
+    private javax.swing.JRadioButton rbGuarani;
+    private javax.swing.JRadioButton rbReal;
     private javax.swing.JSpinner spnrPagCli;
     private javax.swing.JPanel tab1;
     private javax.swing.JPanel tabInfoCliente;
