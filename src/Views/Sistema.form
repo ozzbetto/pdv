@@ -1062,7 +1062,7 @@
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="buttonGroup1"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Guarani"/>
+                    <Property name="text" type="java.lang.String" value="Gs."/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JRadioButton" name="rbDolar">
@@ -1070,7 +1070,7 @@
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="buttonGroup1"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="D&#xf3;lar"/>
+                    <Property name="text" type="java.lang.String" value="US$"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JRadioButton" name="rbReal">
@@ -1078,7 +1078,7 @@
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="buttonGroup1"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Real"/>
+                    <Property name="text" type="java.lang.String" value="R$"/>
                   </Properties>
                 </Component>
               </SubComponents>

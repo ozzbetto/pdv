@@ -10,7 +10,7 @@ import Library.FormatDecimal;
 import Library.Paginador;
 import Library.RenderCheckBox;
 import Models.TCliente;
-import Models.tReportes_Cliente;
+import Models.TReportes_Cliente;
 import java.awt.Color;
 import static java.lang.String.format;
 import java.util.*;
@@ -40,7 +40,7 @@ public class ClientesVM extends Consult {
     public int seccion;
     private final FormatDecimal _format;
     private Paginador<TCliente> _paginadorCliente;
-    private Paginador<tReportes_Cliente> _paginadorReportes;
+    private Paginador<TReportes_Cliente> _paginadorReportes;
 
     // <editor-fold defaultstate="collapsed" desc="Registro de Clientes">
     public ClientesVM(Object[] objects, ArrayList<JLabel> label, ArrayList<JTextField> textField) {
@@ -288,7 +288,7 @@ public class ClientesVM extends Consult {
         String[] titulos = {"ID", "Cedula", "Nombre", "Apellido", "Deuda actual", "Fecha deuda", "Ultimo pago", "Fecha ult. pago", "Factura", "Fecha limite"};
         modelo2 = new DefaultTableModel(null, titulos);
         int inicio = (_num_paginas - 1) * _reg_por_pagina;
-        List<tReportes_Cliente> reporteFilter;
+        List<TReportes_Cliente> reporteFilter;
         if (valor.equals("")) {
             reporteFilter = reporteCliente().stream()
                     .skip(inicio).limit(_reg_por_pagina)
@@ -339,7 +339,7 @@ public class ClientesVM extends Consult {
     }
     // </editor-fold>
     private List<TCliente> listClientes;
-    private List<tReportes_Cliente> listaReportes;
+    private List<TReportes_Cliente> listaReportes;
     
     public void paginador(String metodo) {
         switch (metodo) {

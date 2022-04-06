@@ -16,14 +16,20 @@ import javax.swing.*;
  * @author frodriguez
  */
 public class Sistema extends javax.swing.JFrame {
-private final List<JRadioButton> _radio;
+
+    private final List<JRadioButton> _radio;
+
     /**
      * Creates new form Sistema
      */
     public Sistema() {
         initComponents();
         //Código de configuración
-        //
+        _radio = new ArrayList();
+        _radio.add(rbGuarani);
+        _radio.add(rbDolar);
+        _radio.add(rbReal);
+        config = new ConfiguracionVM(_radio);
         //
     }
 
@@ -721,13 +727,13 @@ private final List<JRadioButton> _radio;
         jLabel3.setText("Tipo de Moneda");
 
         buttonGroup1.add(rbGuarani);
-        rbGuarani.setText("Guarani");
+        rbGuarani.setText("Gs.");
 
         buttonGroup1.add(rbDolar);
-        rbDolar.setText("Dólar");
+        rbDolar.setText("US$");
 
         buttonGroup1.add(rbReal);
-        rbReal.setText("Real");
+        rbReal.setText("R$");
 
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
         jPanel14.setLayout(jPanel14Layout);
@@ -800,7 +806,7 @@ private final List<JRadioButton> _radio;
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(tabPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 1307, Short.MAX_VALUE)
+                    .addComponent(tabPrincipal)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(5, 5, 5)
                         .addComponent(btnVentas)
@@ -838,7 +844,7 @@ private final List<JRadioButton> _radio;
         label.add(lblEmail);
         label.add(lblDireccion);
         label.add(lblNumPaginas);
-        
+
         label.add(lblClienteDeuda);
         label.add(lblFechaDeuda);
         label.add(lblFechaPago);
@@ -1022,7 +1028,7 @@ private final List<JRadioButton> _radio;
             cliente.GetReportCliente();
         }
     }//GEN-LAST:event_tblClienteReportKeyReleased
-    
+
     ConfiguracionVM config;
     private void btnConfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfActionPerformed
         tabPrincipal.setSelectedIndex(2);
