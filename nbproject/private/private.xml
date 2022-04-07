@@ -4,11 +4,9 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/pdv/Sistema%20Punto%20de%20Venta/src/Views/Sistema.java</file>
-            <file>file:/C:/pdv/Sistema%20Punto%20de%20Venta/src/ViewModels/ClientesVM.java</file>
-            <file>file:/C:/pdv/Sistema%20Punto%20de%20Venta/src/Models/tReportes_Cliente.java</file>
-            <file>file:/C:/pdv/Sistema%20Punto%20de%20Venta/src/Models/TCliente.java</file>
+            <file>file:/C:/pdv/Sistema%20Punto%20de%20Venta/src/ViewModels/ConfiguracionVM.java</file>
+            <file>file:/C:/pdv/Sistema%20Punto%20de%20Venta/src/Models/TConfiguracion.java</file>
             <file>file:/C:/pdv/Sistema%20Punto%20de%20Venta/src/Conexion/Consult.java</file>
-            <file>file:/C:/pdv/Sistema%20Punto%20de%20Venta/src/Library/FormatDecimal.java</file>
         </group>
     </open-files>
 </project-private>

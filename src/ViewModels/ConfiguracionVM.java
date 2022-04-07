@@ -47,9 +47,11 @@ public class ConfiguracionVM extends Consult {
         });
     }
 
-    private String sqlConfig = "INSERT INTO tconfiguracion(TypeMoney) VALUES(?)";
+    //private String sqlConfig = "INSERT INTO tconfiguracion(TypeMoney) VALUES(?)";
+    private String sqlConfig;
 
     private void TypeMoney() {
+        sqlConfig = "INSERT INTO tconfiguracion(TypeMoney) VALUES(?)";
         List<TConfiguracion> config = config();
         final QueryRunner qr = new QueryRunner(true);
         if (config.isEmpty()) {
@@ -61,9 +63,7 @@ public class ConfiguracionVM extends Consult {
 
             }
         } else {
-            int count = config.size();
-            count--;
-            TConfiguracion data = config.get(count);
+            TConfiguracion data = config.get(0);
             Mony = data.getTypeMoney();
             switch (Mony) {
                 case "Gs.":
@@ -83,21 +83,22 @@ public class ConfiguracionVM extends Consult {
             try {
                 List<TConfiguracion> config = config();
                 if (config.isEmpty()) {
+                    sqlConfig = "INSERT INTO tconfiguracion(TypeMoney) VALUES(?)";
                     Mony = typeMoney;
                     Object[] dataConfig = {Mony};
 
                     qr.insert(getConn(), sqlConfig, new ColumnListHandler(), dataConfig);
 
                 } else {
-                    int count = config.size();
-                    count--;
-                    TConfiguracion data = config.get(count);
+
+                    TConfiguracion data = config.get(0);
+                    sqlConfig = "UPDATE tconfiguracion SET TypeMoney = ? WHERE id =" + data.getId();
                     if (data.getTypeMoney().equals(typeMoney)) {
                         Mony = typeMoney;
                     } else {
                         Mony = typeMoney;
                         Object[] dataConfig = {Mony};
-                        qr.insert(getConn(), sqlConfig, new ColumnListHandler(), dataConfig);
+                        qr.update(getConn(), sqlConfig, dataConfig);
                     }
                 }
             } catch (SQLException ex) {
